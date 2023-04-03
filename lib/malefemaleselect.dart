@@ -32,22 +32,24 @@ class _PlusBoxState extends State<PlusBox> {
             children: [
               Text(widget.t),
               Text(inum.toString()),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  plusMinusButton(
-                      i: Icon(Icons.remove),
-                      f: () {
-                        setState(() {});
-                        inum--;
-                      }),
-                  plusMinusButton(
-                      i: Icon(Icons.add),
-                      f: () {
-                        setState(() {});
-                        inum++;
-                      }),
-                ],
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    plusMinusButton(
+                        i: Icon(Icons.remove),
+                        f: () {
+                          setState(() {});
+                          inum--;
+                        }),
+                    plusMinusButton(
+                        i: Icon(Icons.add),
+                        f: () {
+                          setState(() {});
+                          inum++;
+                        }),
+                  ],
+                ),
               ),
             ],
           ),
