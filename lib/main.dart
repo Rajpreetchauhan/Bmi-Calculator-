@@ -16,6 +16,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   PlusBox plusBox1 = PlusBox(t: "Male");
   PlusBox plusBox2 = PlusBox(t: "female");
+  int? Genderselect;
 
   // This widget is the root of your application.
 
@@ -36,10 +37,24 @@ class _MyAppState extends State<MyApp> {
                     Malefemaleselect(
                       i: Icon(Icons.male),
                       t: "Male",
+                      colorchangetap: () {
+                        setState(() {
+                          Genderselect = 1;
+                        });
+                      },
+                      colorchange:
+                          Genderselect == 1 ? Colors.red : Colors.red.shade300,
                     ),
                     Malefemaleselect(
                       i: Icon(Icons.female),
                       t: "Female",
+                      colorchangetap: () {
+                        setState(() {
+                          Genderselect = 2;
+                        });
+                      },
+                      colorchange:
+                          Genderselect == 2 ? Colors.red : Colors.red.shade300,
                     ),
                   ],
                 ),
@@ -93,11 +108,15 @@ class _MyAppState extends State<MyApp> {
 class Malefemaleselect extends StatefulWidget {
   Icon? i;
   String? t;
-  Malefemaleselect({
-    Key? key,
-    required Icon? i,
-    required String? t,
-  }) : super(key: key);
+  Color? colorchange;
+  Function()? colorchangetap;
+  Malefemaleselect(
+      {Key? key,
+      required this.i,
+      required this.t,
+      required this.colorchangetap,
+      required this.colorchange})
+      : super(key: key);
 
   @override
   State<Malefemaleselect> createState() => _MalefemaleselectState();
@@ -106,15 +125,20 @@ class Malefemaleselect extends StatefulWidget {
 class _MalefemaleselectState extends State<Malefemaleselect> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.all(Radius.circular(5))),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [widget.i!, Text(widget.t!)],
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: GestureDetector(
+          onTap: widget.colorchangetap,
+          child: Container(
+            decoration: BoxDecoration(
+                color: widget.colorchange,
+                borderRadius: BorderRadius.all(Radius.circular(5))),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [widget.i!, Text(widget.t!)],
+            ),
+          ),
         ),
       ),
     );
