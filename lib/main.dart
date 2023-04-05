@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
 import 'malefemaleselect.dart';
 
 void main() {
@@ -14,10 +15,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  PlusBox plusBox1 = PlusBox(t: "Male");
-  PlusBox plusBox2 = PlusBox(t: "female");
   int? Genderselect;
 
+  double Slidervalue = 180;
   // This widget is the root of your application.
 
   @override
@@ -71,7 +71,30 @@ class _MyAppState extends State<MyApp> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text("Height"),
-                        Text("177 cm"),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Text(Slidervalue.round().toString(),
+                                style: boldfontstyle),
+                            Text("cm"),
+                          ],
+                        ),
+                        SliderTheme(
+                          data: SliderThemeData(
+                              activeTickMarkColor: Colors.yellowAccent,
+                              activeTrackColor: Colors.yellow),
+                          child: Slider(
+                              value: Slidervalue,
+                              min: 120,
+                              max: 180,
+                              onChanged: (double sliderpassvalue) {
+                                setState(() {
+                                  Slidervalue = sliderpassvalue;
+                                });
+                              }),
+                        )
                       ],
                     ),
                   ),
@@ -79,7 +102,12 @@ class _MyAppState extends State<MyApp> {
               ),
               Expanded(
                 child: Row(
-                  children: [plusBox1, plusBox2],
+                  children: [
+                    PlusContainers(Categoryame: "Age"),
+                    PlusContainers(
+                      Categoryame: "Weight",
+                    )
+                  ],
                 ),
               ),
               Expanded(
@@ -105,39 +133,67 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class Malefemaleselect extends StatefulWidget {
-  Icon? i;
-  String? t;
-  Color? colorchange;
-  Function()? colorchangetap;
-  Malefemaleselect(
-      {Key? key,
-      required this.i,
-      required this.t,
-      required this.colorchangetap,
-      required this.colorchange})
-      : super(key: key);
-
+class PlusContainers extends StatefulWidget {
+  PlusContainers({Key? key, required this.Categoryame}) : super(key: key);
+  String Categoryame;
   @override
-  State<Malefemaleselect> createState() => _MalefemaleselectState();
+  State<PlusContainers> createState() => _PlusContainersState();
 }
 
-class _MalefemaleselectState extends State<Malefemaleselect> {
+class _PlusContainersState extends State<PlusContainers> {
+  Plusminusbutton({required iconbutton, required Icontapfunction}) {
+    return GestureDetector(
+      onTap: Icontapfunction,
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.red.shade100),
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: iconbutton,
+        ),
+      ),
+    );
+  }
+
+  int Agenumber = 0;
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
         padding: EdgeInsets.all(8.0),
-        child: GestureDetector(
-          onTap: widget.colorchangetap,
-          child: Container(
-            decoration: BoxDecoration(
-                color: widget.colorchange,
-                borderRadius: BorderRadius.all(Radius.circular(5))),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [widget.i!, Text(widget.t!)],
-            ),
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.red, borderRadius: BorderRadius.circular(5)),
+          child: Column(
+            children: [
+              Text(widget.Categoryame),
+              Text(
+                Agenumber.toString(),
+                style: boldfontstyle,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Plusminusbutton(
+                      iconbutton: Icon(Icons.remove),
+                      Icontapfunction: () {
+                        setState(() {
+                          Agenumber--;
+                        });
+                      }),
+                  SizedBox(width: 30),
+                  Plusminusbutton(
+                      iconbutton: Icon(Icons.add),
+                      Icontapfunction: () {
+                        setState(() {
+                          Agenumber++;
+                        });
+                      })
+                ],
+              )
+            ],
           ),
         ),
       ),

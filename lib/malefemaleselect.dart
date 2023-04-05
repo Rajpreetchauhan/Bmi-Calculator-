@@ -1,57 +1,38 @@
 import 'package:flutter/material.dart';
 
-class PlusBox extends StatefulWidget {
-  const PlusBox({Key? key, required this.t}) : super(key: key);
-  final String t;
+class Malefemaleselect extends StatefulWidget {
+  Icon? i;
+  String? t;
+  Color? colorchange;
+  Function()? colorchangetap;
+  Malefemaleselect(
+      {Key? key,
+      required this.i,
+      required this.t,
+      required this.colorchangetap,
+      required this.colorchange})
+      : super(key: key);
+
   @override
-  State<PlusBox> createState() => _PlusBoxState();
+  State<Malefemaleselect> createState() => _MalefemaleselectState();
 }
 
-class _PlusBoxState extends State<PlusBox> {
-  int inum = 0;
-
-  Widget plusMinusButton({required Function()? f, required Widget? i}) {
-    return Container(
-      height: 40,
-      width: 40,
-      decoration: BoxDecoration(
-          color: Colors.red[100], borderRadius: BorderRadius.circular(90)),
-      child: TextButton(onPressed: f, child: i!),
-    );
-  }
-
+class _MalefemaleselectState extends State<Malefemaleselect> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
         padding: EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.red, borderRadius: BorderRadius.circular(5)),
-          child: Column(
-            children: [
-              Text(widget.t),
-              Text(inum.toString()),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    plusMinusButton(
-                        i: Icon(Icons.remove),
-                        f: () {
-                          setState(() {});
-                          inum--;
-                        }),
-                    plusMinusButton(
-                        i: Icon(Icons.add),
-                        f: () {
-                          setState(() {});
-                          inum++;
-                        }),
-                  ],
-                ),
-              ),
-            ],
+        child: GestureDetector(
+          onTap: widget.colorchangetap,
+          child: Container(
+            decoration: BoxDecoration(
+                color: widget.colorchange,
+                borderRadius: BorderRadius.all(Radius.circular(5))),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [widget.i!, Text(widget.t!)],
+            ),
           ),
         ),
       ),
