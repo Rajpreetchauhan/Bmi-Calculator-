@@ -32,6 +32,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int? Genderselect;
   double Slidervalue = 180;
+  PlusContainers plusContainers1 = PlusContainers(
+    Categoryame: "Age",
+  );
+  PlusContainers plusContainers2 = PlusContainers(
+    Categoryame: "Weight",
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -113,12 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Expanded(
               child: Row(
-                children: [
-                  PlusContainers(Categoryame: "Age"),
-                  PlusContainers(
-                    Categoryame: "Weight",
-                  )
-                ],
+                children: [plusContainers1, plusContainers2],
               ),
             ),
             Expanded(
@@ -131,9 +132,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.circular(5)),
                   child: TextButton(
                     onPressed: () {
+                      Calculatework caclulatorobj = Calculatework(
+                          height: Slidervalue.toInt(),
+                          weight: plusContainers2.Agenumber);
+
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return ResultScreen();
+                        return ResultScreen(
+                            bmivaluetext: caclulatorobj.bmivalue());
                       }));
                     },
                     child: Text("Calculate"),
@@ -151,6 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
 class PlusContainers extends StatefulWidget {
   PlusContainers({Key? key, required this.Categoryame}) : super(key: key);
   String Categoryame;
+  int Agenumber = 0;
   @override
   State<PlusContainers> createState() => _PlusContainersState();
 }
@@ -171,8 +178,6 @@ class _PlusContainersState extends State<PlusContainers> {
     );
   }
 
-  int Agenumber = 0;
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -185,7 +190,7 @@ class _PlusContainersState extends State<PlusContainers> {
             children: [
               Text(widget.Categoryame),
               Text(
-                Agenumber.toString(),
+                widget.Agenumber.toString(),
                 style: boldfontstyle,
               ),
               Row(
@@ -195,7 +200,7 @@ class _PlusContainersState extends State<PlusContainers> {
                       iconbutton: Icon(Icons.remove),
                       Icontapfunction: () {
                         setState(() {
-                          Agenumber--;
+                          widget.Agenumber--;
                         });
                       }),
                   SizedBox(width: 30),
@@ -203,7 +208,7 @@ class _PlusContainersState extends State<PlusContainers> {
                       iconbutton: Icon(Icons.add),
                       Icontapfunction: () {
                         setState(() {
-                          Agenumber++;
+                          widget.Agenumber++;
                         });
                       })
                 ],
